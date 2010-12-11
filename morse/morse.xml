@@ -1,0 +1,15 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+<ShortName>Morse Convert</ShortName>
+<Description>Convert between Morse and Latin</Description>
+<InputEncoding>ascii</InputEncoding>
+<Image width="16" height="16">data:image/bmp;base64,Qk32AAAAAAAAAHYAAAAoAAAAEAAAABAAAAABAAQAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAICAgADAwMAAAAD%2FAAD%2FAAAA%2F%2F8A%2FwAAAP8A%2FwD%2F%2FwAA%2F%2F%2F%2FAAAAAAAAAAAAC7u7u7u7u7ALu7u7u7u7sAu7u7u7u7uwCwC7u7u7u7ALALu7u7u7sAu7u7u7u7uwC7u7u7u7u7ALu7sAAAALsAu7uwAAAAuwC7u7u7u7u7ALu7u7u7u7sAu7u7u7u7uwC7u7u7u7u7ALu7u7u7u7sAAAAAAAAAAA</Image>
+<Url type="text/html" method="GET" template="http://ermarian.net/services/search/morse/?input={searchTerms}">
+  <Param name="input" value="{searchTerms}"/>
+</Url>
+<Url type="application/x-suggestions+json" template="http://ermarian.net/services/search/morse/?input={searchTerms}&auto=suggestions">
+  <Param name="input" value="{searchTerms}"/>
+  <Param name="auto" value="suggestions"/>
+</Url>
+<moz:SearchForm>http://ermarian.net/services/search/morse/</moz:SearchForm>
+</OpenSearchDescription>
