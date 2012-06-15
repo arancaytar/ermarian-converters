@@ -1,6 +1,7 @@
 <?php
 
 $input = isset($_POST['input']) ? str_replace("\\","",$_POST['input']) : '';
+$warning = FALSE;
 if ($input && $_POST['direction']=='decrypt')
 {
   if ($_POST['hex']) 
@@ -9,21 +10,24 @@ if ($input && $_POST['direction']=='decrypt')
     $input = preg_replace('/[^0-9a-f ]/', '', $input);
     $_POST['input'] = $input;
     $input = str_replace(' ', '', $input);
-    for ($i = 0; $i < strlen($input); $i++)
+    print $input;
+    for ($i = 0; $i < strlen($input) - 1; $i+=2)
     {
-      if ($i%2 == 0)
-      {
-        $byte = hexdec($byte);
+        $byte = hexdec(substr($input, $i, 2));
+        /*
         if ($byte) {
           if ($byte!=21 && $byte!=20 && $byte!=17 && $byte!=19 && $byte!=30 && $byte!=1 && $byte!=3 && $byte!=22 && $byte!=28 && $byte!=4)
           {
             $output .= "&#$byte;";
           }
           else $output .= '{'. $byte .'}';
+        }*/
+	if ($byte >= 16 && $byte <= 127) $output .= htmlentities(chr($byte));
+	else { 
+          $output .= "\x$byte";
+          $warning = TRUE;
         }
         $byte = '';
-      }
-      $byte .= $input[$i];
     }
   }
   else
