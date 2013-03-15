@@ -21,21 +21,20 @@ function p2c($r, $a, $deg = FALSE) {
 }
 
 function convert($input, $direction) {
-  $format = str_replace(array('%', '<', '>', '&'), array('%%', '&lt;', '&gt', '%amp;'), $input);
-  $pattern = '/([-\d\.]+)([^-\d\.]+)([-\d\.]+)(°)?/';
-  if (preg_match($pattern, $format, $args)) {
-    $format = preg_replace($pattern, '%.6f$2%.6f', $format);
+  $pattern = '/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)(°?)/u';
+  if (preg_match($pattern, $input, $args)) {
     switch ($direction) {
       case 'c2p':
-        $x = c2p($args[1], $args[3]);
+        $x = c2p($args[1], $args[2]);
 	break;
       default:
       case 'p2c':
-        $x = p2c($args[1], $args[3], !empty($args[4]));
+        $x = p2c($args[1], $args[2], !empty($args[3]));
         break;
     }
-    return sprintf($format, $x[0], $x[1]);
+    return sprintf('%.6f, %.6f', $x[0], $x[1]);
   }
+  else return 'Error: format not recognized.';
 }
 
 $v = array(
@@ -83,7 +82,7 @@ $page['content'] = <<<DOC
   <input type="radio" id="p2c" name="direction" value="p2c" {$p2c} /><label for="c2p">Cartesian &larr; Polar</label>
   </p>
 </form>
-<div id="output" class="filled-box">{$output}</div>
-<p>Enter two numbers and pick the conversion direction. Per convention, the format for cartesian coordinates is <strong>x,y</strong>, and the format for polar coordinates is <strong>radius,azimuth</strong>. If appended with &deg;, the azimuth will be interpreted as degrees; it will always be given in radians. The azimuth is counter-clockwise from the positive horizontal axis.</p>
+<div id="output" class="filled-box codeblock">{$output}</div>
+<p>Enter two numbers and pick the conversion direction. Per convention, the format for cartesian coordinates is <strong>x,y</strong>, and the format for polar coordinates is <strong>radius,azimuth</strong>. If appended with &deg;, the azimuth will be interpreted as degrees; it will always be given in radians. The azimuth is counter-clockwise from <code>+x</code>.</p>
 DOC;
 print theme_page($page);
