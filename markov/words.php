@@ -1,5 +1,5 @@
 <?php
-require_once 'markov.php';
+require_once 'markov.inc';
 require_once 'ermarian/template.php';
 require_once 'template/navigation.inc';
 
