@@ -61,8 +61,9 @@ function l_generate_text($profile, $length, $seed = '') {
 
   while (strlen($text) < $length) {
     $last = substr($text, -$coherence);
-    if (!isset($profile[$last])) return $text; // end of chain error.
-    $text .= skewed_random($profile[$last]);
+    if (isset($profile[$last])) $text .= skewed_random($profile[$last]);
+    // If the chain breaks, start with a new random piece.
+    else $text .= array_rand($profile);
   }
   return $text;
 }
