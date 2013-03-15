@@ -1,19 +1,20 @@
 <?php
-require_once("markov.php");
-$_POST['input'] = substr($_POST['input'], 0, 100000); // 100k and that's it.
-$input = $_POST['input'];
-$length = $_POST['length'];
-$coherence = $_POST['coherence'];
+require_once 'markov.inc';
 
-if ($words > 2000) $words = 2000; // don't crash my server.
-if ($coherence > 20) $coherence = 20; // "
+$_POST += array(
+  'input' => '',
+  'length' => 100,
+  'coherence' => 2,
+);
+
+$input = substr($_POST['input'], 0, 100000);
+$length = min($_POST['length'], 2000);
+$coherence = min($_POST['coherence'], 20);
+$output = '';
 
 if ($input) {
-  if (!$length) $length = 100;
-  if (!$coherence) $coherence = 2;
   $relations = l_build_relations($input, $coherence);
-  $profile = tabulate_profile($relations);
-  $output = l_generate_text($profile, $length);
+  $output = l_generate_text($relations, $length);
 }
 
 ?>
