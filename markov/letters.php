@@ -29,8 +29,6 @@ if ($_REQUEST['json']) {
   exit;
 }
 
-$page['title'] = 'Markov Letters';
-$page['meta']['description'] = 'Generate a random string from a source text, using a Markov chain algorithm.';
 $page['meta']['keywords'] = ['markov chain', 'random', 'generator', 'convert', 'arancaytar', 'ermarian'];
 
 $page['scripts'] = ['style/jquery', 'style/jquery.form', 'style/ajax'];
