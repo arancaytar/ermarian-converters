@@ -31,7 +31,7 @@ if ($_REQUEST['json']) {
 
 $page['meta']['keywords'] = ['markov chain', 'random', 'generator', 'convert', 'arancaytar', 'ermarian'];
 
-$page['scripts'] = ['style/jquery', 'style/jquery.form', 'style/ajax'];
+$page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 
 $page['content'] = <<<DOC
     <p>This page will process your input texts and, using statistics and random numbers, will generate a string of output with letters that are approximately pronouncable.</p>

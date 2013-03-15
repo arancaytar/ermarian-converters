@@ -33,7 +33,7 @@ $page['title'] = 'Markov text generator';
 $page['meta']['description'] = 'This page runs an input text through a random word scrambler.';
 $page['meta']['keywords'] = array('markov chain', 'neural net', 'artificial intelligence', 'convert');
 
-$page['scripts'] = ['style/jquery', 'style/jquery.form', 'style/ajax'];
+$page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 
 $page['content'] = <<<DOC
     <p>This converter will read your input text and build a probability function. This function indicates how likely a certain word follows another given word. It will then randomly generate a text by using this probability function.</p>

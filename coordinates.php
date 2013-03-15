@@ -1,8 +1,8 @@
 <?php
 
 require_once 'ermarian/template.php';
-require_once 'template/navigation.inc';
 require_once 'net/mime.inc';
+
 $SELF = $_SERVER['SCRIPT_URL'];
 
 function c2p($x, $y) {
@@ -37,12 +37,12 @@ function convert($input, $direction) {
   else return 'Error: format not recognized.';
 }
 
-$v = array(
+$v = [
   'input' => '',
   'output' => '',
   'direction' => 'c2p',
   'json' => FALSE,
-);
+];
 $v = $_REQUEST + $v;
 $v['direction'] = $v['direction'] == 'c2p' ? 'c2p' : 'p2c';
 
@@ -61,11 +61,8 @@ $output = $v['output'];
 $c2p = $v['direction'] == 'c2p' ? 'checked="1"' : '';
 $p2c = $v['direction'] == 'p2c' ? 'checked="1"' : ''	;
 
-$page['title'] = 'Coordinate Conversion';
-$page['navigation'] = theme_navigation(navigation_tree());
-$page['meta']['description'] = 'Polar/Cartesian coordinate converter.';
-$page['meta']['keywords'] = array('polar', 'cartesian', 'coordinates', 'conversion', 'converter');
-$page['scripts'] = array('style/jquery', 'style/jquery.form', 'style/ajax');
+$page['meta']['keywords'] = ['polar', 'cartesian', 'coordinates', 'conversion', 'converter'];
+$page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 $page['content'] = <<<DOC
 <p>This page will convert between polar and cartesian coordinates.</p>
 <form action="{$SELF}" method="post" />
