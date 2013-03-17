@@ -61,14 +61,14 @@ if ($v['json']) {
 
 $input = $v['input'];
 $output = $v['output'];
-$c2p = $v['direction'] == 'c2p' ? 'checked="1"' : '';
-$p2c = $v['direction'] == 'p2c' ? 'checked="1"' : ''	;
-$ccw = $v['azimuth'] == 'ccw' ? 'checked="1"' : '';
-$cw = $v['azimuth'] == 'cw' ? 'checked="1"' : ''	;
-$o1plus = $v['o1'] == 'plus' ? 'checked="1"' : '';
-$o1minus = $v['o1'] == 'minus' ? 'checked="1"' : ''	;
-$o2x = $v['o2'] == 'x' ? 'checked="1"' : '';
-$o2y = $v['o2'] == 'y' ? 'checked="1"' : ''	;
+$c2p = $v['direction'] == 'c2p' ? 'checked="checked"' : '';
+$p2c = $v['direction'] == 'p2c' ? 'checked="checked"' : ''	;
+$ccw = $v['azimuth'] == 'ccw' ? 'checked="checked"' : '';
+$cw = $v['azimuth'] == 'cw' ? 'checked="checked"' : ''	;
+$o1plus = $v['o1'] == 'plus' ? 'checked="checked"' : '';
+$o1minus = $v['o1'] == 'minus' ? 'checked="checked"' : ''	;
+$o2x = $v['o2'] == 'x' ? 'checked="checked"' : '';
+$o2y = $v['o2'] == 'y' ? 'checked="checked"' : ''	;
 
 
 $page['meta']['keywords'] = ['polar', 'cartesian', 'coordinates', 'conversion', 'converter'];
