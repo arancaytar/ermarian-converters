@@ -21,11 +21,11 @@ function p2c($r, $a, $deg = FALSE) {
 }
 
 function convert($input, $direction) {
-  if ($direction == 'c2p' && preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)/u', $input, $args)) {
-    $x = c2p($args[1], $args[2]);
+  if ($direction == 'c2p' && preg_match('/(?<x>-?(?:\d*\.)?\d+)[,\s]+(?<y>-?(?:\d*\.)?\d+)/u', $input, $args)) {
+    $x = c2p($args['x'], $args['y']);
   }
-  elseif (preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)(°?)/u', $input, $args)) {
-    $x = p2c($args[1], $args[2], !empty($args[3]));
+  elseif ($direction == 'p2c' && preg_match('/(?<r>-?(?:\d*\.)?\d+)[,\s]+(?<phi>-?(?:\d*\.)?\d+)(?<deg>°?)/u', $input, $args)) {
+    $x = p2c($args['r'], $args['phi'], !empty($args['deg']));
   }
   else return 'Error: format not recognized.';
   return sprintf('%.6f, %.6f', $x[0], $x[1]);
