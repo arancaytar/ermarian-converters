@@ -79,7 +79,7 @@ $page['content'] = <<<DOC
 <form action="{$SELF}" method="post">
   <p>
     <input type="hidden" name="json" value="" />
-    <label for="in">Coordinates:</label>
+    <label for="input">Coordinates:</label>
     <input type="text" id="input" name="input" value="{$input}" />
     <input type="submit" id="submit" value="Convert" />
   </p>
