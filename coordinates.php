@@ -76,7 +76,7 @@ $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 
 $page['content'] = <<<DOC
 <p>This page will convert between polar and cartesian coordinates.</p>
-<form action="{$SELF}" method="post" />
+<form action="{$SELF}" method="post">
   <input type="hidden" name="json" value="" />
   <p>
     <label for="in">Coordinates:</label>
