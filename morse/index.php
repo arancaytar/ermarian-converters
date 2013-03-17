@@ -16,20 +16,20 @@ $v = $_REQUEST + [
   'auto' => FALSE,
 ];
 
-if ($_REQUEST['input']) {
-  $input = trim($_REQUEST['input']);
+if ($v['input']) {
+  $input = trim($v['input']);
 	if (is_morse($input)) $output = morse_decode($input);
 	else $output = morse_encode($input);
 }
 
-if ($_REQUEST['json']) {
+if ($v['json']) {
 	mime('json');
 	print json_encode(array('output' => $output));
 	exit;
 }
-if ($_REQUEST['auto']) {
+if ($v['auto']) {
   mime('json');
-  print json_encode(array($_REQUEST['input'], [$output]));
+  print json_encode(array($v['input'], [$output]));
   exit;
 }
 
