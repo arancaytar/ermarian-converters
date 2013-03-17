@@ -23,6 +23,7 @@ function p2c($r, $a, $deg = FALSE) {
 function convert($input, $direction) {
   if ($direction == 'c2p' && preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)/u', $input, $args)) {
     $x = c2p($args[1], $args[2]);
+  }
   elseif (preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)(°?)/u', $input, $args)) {
     $x = p2c($args[1], $args[2], !empty($args[3]));
   }
