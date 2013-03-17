@@ -21,20 +21,13 @@ function p2c($r, $a, $deg = FALSE) {
 }
 
 function convert($input, $direction) {
-  $pattern = '/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)(°?)/u';
-  if (preg_match($pattern, $input, $args)) {
-    switch ($direction) {
-      case 'c2p':
-        $x = c2p($args[1], $args[2]);
-	break;
-      default:
-      case 'p2c':
-        $x = p2c($args[1], $args[2], !empty($args[3]));
-        break;
-    }
-    return sprintf('%.6f, %.6f', $x[0], $x[1]);
+  if ($direction == 'c2p' && preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)/u', $input, $args)) {
+    $x = c2p($args[1], $args[2]);
+  elseif (preg_match('/(-?(?:\d*\.)?\d+)[,\s]+(-?(?:\d*\.)?\d+)(°?)/u', $input, $args)) {
+    $x = p2c($args[1], $args[2], !empty($args[3]));
   }
   else return 'Error: format not recognized.';
+  return sprintf('%.6f, %.6f', $x[0], $x[1]);
 }
 
 $v = [
