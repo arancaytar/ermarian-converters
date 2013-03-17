@@ -21,10 +21,10 @@ function p2c($r, $a, $deg = FALSE) {
 }
 
 function convert($input, $direction) {
-  if ($direction == 'c2p' && preg_match('/(?<x>-?(?:\d*\.)?\d+)[,\s]+(?<y>-?(?:\d*\.)?\d+)/u', $input, $args)) {
+  if ($direction == 'c2p' && preg_match('/^(?<x>-?(?:\d*\.)?\d+)[,\s]+(?<y>-?(?:\d*\.)?\d+)$/u', $input, $args)) {
     $x = c2p($args['x'], $args['y']);
   }
-  elseif ($direction == 'p2c' && preg_match('/(?<r>-?(?:\d*\.)?\d+)[,\s]+(?<phi>-?(?:\d*\.)?\d+)(?<deg>°?)/u', $input, $args)) {
+  elseif ($direction == 'p2c' && preg_match('/^(?<r>-?(?:\d*\.)?\d+)[,\s]+(?<phi>-?(?:\d*\.)?\d+)(?<deg>°?)$/u', $input, $args)) {
     $x = p2c($args['r'], $args['phi'], !empty($args['deg']));
   }
   else return 'Error: format not recognized.';
@@ -41,7 +41,7 @@ $v = $_REQUEST + $v;
 $v['direction'] = $v['direction'] == 'c2p' ? 'c2p' : 'p2c';
 
 if ($v['input']) {
-  $v['output'] = convert($v['input'], $v['direction']);
+  $v['output'] = convert(trim($v['input']), $v['direction']);
 }
 
 if ($v['json']) {
