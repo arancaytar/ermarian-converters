@@ -104,7 +104,7 @@ $page['content'] = <<<DOC
   <fieldset id="orientation">
     <legend>Orientation</legend>
     <table style="border:none;background:none;">
-      <caption>θ = 0° is:<caption>
+      <caption>θ = 0° is:</caption>
       <tr>
         <td>
           <input type="radio" id="o1plus" name="o1" value="plus" {$o1plus} />
