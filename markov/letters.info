@@ -1,0 +1,2 @@
+title = Markov Letters
+description = Generate a random string from a source text, using a Markov chain algorithm.
