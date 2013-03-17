@@ -69,7 +69,7 @@ $page['content'] = <<<DOC
     <input type="radio" id="c2p" name="direction" value="c2p" {$c2p} /><label for="c2p">Cartesian &rarr; Polar</label>
   </p>
   <p>
-  <input type="radio" id="p2c" name="direction" value="p2c" {$p2c} /><label for="c2p">Cartesian &larr; Polar</label>
+  <input type="radio" id="p2c" name="direction" value="p2c" {$p2c} /><label for="c2p">Polar &rarr; Cartesian</label>
   </p>
 </form>
 <div id="output" class="filled-box codeblock">{$output}</div>
