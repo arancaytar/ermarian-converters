@@ -109,10 +109,10 @@ function decode_utf8($bytes) {
       $buffer = $buffer << 6 | $bytes[$j];
     }
     $i += $extra;
-    $out[] = $buffer;
+    $data[] = $buffer;
     $buffer = 0;
   }
-  return $out;
+  return $data;
 }
 
 function encode_utf16($data) {
