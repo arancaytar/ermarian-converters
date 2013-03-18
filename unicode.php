@@ -4,14 +4,6 @@ require_once 'ermarian/template.php';
 require_once 'net/mime.inc';
 require_once 'unicode.inc';
 
-if (!in_array($_REQUEST['encoding'], ['utf8', 'utf16', 'utf32'])) {
-  unset($_REQUEST['encoding']);
-}
-
-if (!in_array($_REQUEST['format'], ['bin', 'oct', 'hex'])) {
-  unset($_REQUEST['format']);
-}
-
 $v = $_REQUEST + [
   'input' => '',
   'output' => '',
@@ -20,6 +12,14 @@ $v = $_REQUEST + [
   'format' => 'bin',
   'json' => FALSE,
 ];
+
+if (!in_array($v['encoding'], ['utf8', 'utf16', 'utf32'])) {
+  $v['encoding'] = 'utf8';
+}
+
+if (!in_array($v['format'], ['bin', 'oct', 'hex'])) {
+  $v['format'] = 'bin';
+}
 
 $bases = ['bin' => 2, 'oct' => 8, 'hex' => 16];
 
