@@ -44,7 +44,7 @@ $page['content'] = <<<DOC
   morse. Format: <code>"."</code> for short, <code>"-"</code> for long, any 
   amount of white space between letters, and <code>"/"</code> between words.</p>
   <p>This tool supports OpenSearch, and provides autocompletion.</p>
-  <form action="" method="post">
+  <form action="{$_SERVER['PHP_SELF']}" method="post">
     <input type="hidden" name="json" value="0" />
     <p style="text-align:center; vertical-align:center">
       <input id="input" type="text" name="input" size="80" value="{$input}" />

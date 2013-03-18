@@ -36,7 +36,7 @@ $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 $page['content'] = <<<DOC
     <p>This page will process your input texts and, using statistics and random numbers, will generate a string of output with letters that are approximately pronouncable.</p>
 
-    <form action='' method='post'>
+    <form action="{$_SERVER['PHP_SELF']}" method='post'>
       <input type='hidden' name='json' value='' />
       <p><textarea name="input" rows="5" style="width:100%">$input</textarea></p>
       <p>Generate <input type="text" name="length" value="$length" /> characters.</p>

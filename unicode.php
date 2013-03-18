@@ -57,7 +57,7 @@ $page['meta']['keywords'] = ['unicode', 'ascii', 'binary', 'conversion', 'conver
 $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 $page['content'] = <<<DOC
 <p>This tool will convert Unicode text to and from its binary representation.</p>
-<form action="" method="post">
+<form action="{$_SERVER['PHP_SELF']}" method="post">
   <p><textarea name="input" rows="5" style="width:100%">{$v['input']}</textarea></p>
   <fieldset id="options">
     <legend>Options</legend>

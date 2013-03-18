@@ -37,7 +37,7 @@ $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 
 $page['content'] = <<<DOC
     <p>This converter will read your input text and build a probability function. This function indicates how likely a certain word follows another given word. It will then randomly generate a text by using this probability function.</p>
-    <form action='' method='post'>
+    <form action="{$_SERVER['PHP_SELF']}" method='post'>
       <input type='hidden' name='json' value='' />
       <p><textarea name="input" rows="5" style="width:100%">$input</textarea></p>
       <p>Generate <input type="text" name="length" value="$length" /> words.</p>
