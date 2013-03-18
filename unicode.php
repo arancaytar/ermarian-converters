@@ -21,6 +21,8 @@ $v = $_REQUEST + [
   'json' => FALSE,
 ];
 
+$bases = ['bin' => 2, 'oct' => 8, 'hex' => 16];
+
 if ($v['input']) {
   if ($v['submit'] == 'Encode') {
     $data = parse_raw($v['input']);
@@ -30,7 +32,7 @@ if ($v['input']) {
     $v['output'] = implode(' ', $fn($bytes));
   }
   else {
-    $bytes = parse_bytes($v['input'], ['bin' => 2, 'oct' => 8, 'hex' => 16][$v['format']]);
+    $bytes = parse_bytes($v['input'], $bases[$v['format']]);
     $fn = "decode_{$v['encoding']}";
     $data = $fn($bytes);
     $v['output'] = implode('', generate_entities($data));
