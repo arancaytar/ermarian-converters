@@ -23,18 +23,11 @@ function parse_bytes($input, $base) {
 }
 
 function parse_raw($text) {
-  $out = [];
+  $bytes = [];
   for ($i = 0; $i < strlen($text); $i++) {
-    $out[] = uniord($text[$i]);
+    $bytes[] = ord($text[$i]);
   }
-  return $out;
-}
-
-function uniord($u) {
-  $k = mb_convert_encoding($u, 'UCS-2LE', 'UTF-8');
-  $k1 = ord(substr($k, 0, 1));
-  $k2 = ord(substr($k, 1, 1));
-  return $k2 * 256 + $k1;
+  return $bytes;
 }
 
 function encode_utf8($data) {
@@ -49,7 +42,7 @@ function encode_utf8($data) {
     }
     elseif ($codepoint < 0x10000) {
       $out[] = 0xe0 | ($codepoint >> 12);        # 0b1110xxxx
-      $out[] = 0x80 | ($codepoint >>  6 % 0x40); # 0b10xxxxxx
+      $out[] = 0x80 | (($codepoint >>  6) % 0x40); # 0b10xxxxxx
       $out[] = 0x80 | ($codepoint % 0x40);       # 0b10xxxxxx
     }
     elseif ($codepoint < 0x20000) {
@@ -81,32 +74,32 @@ function decode_utf8($bytes) {
   $data = [];
   $buffer = 0;
   for ($i = 0; $i < count($bytes); $i++) {
-    if (($bytes[$i] & 0x80) == 0) {
+    if (($bytes[$i] & 0x80) == 0) {          # 0xxxxxxx ASCII
       $buffer = $bytes[$i];
       $extra = 0;
     }
-    elseif (($bytes[$i] & 0xe0) == 0xc0) {
+    elseif (($bytes[$i] & 0xe0) == 0xc0) {   # 110xxxxx
       $buffer = $bytes[$i] & 0x1f;
       $extra = 1;
     }
-    elseif (($bytes[$i] & 0xf0) == 0xe0) {
+    elseif (($bytes[$i] & 0xf0) == 0xe0) {   # 1110xxxx
       $buffer = ($bytes[$i] & 0xf);
       $extra = 2;
     }
-    elseif (($bytes[$i] & 0xf8) == 0xf0) {
+    elseif (($bytes[$i] & 0xf8) == 0xf0) {   # 11110xxx
       $buffer = ($bytes[$i] & 0x7);
       $extra = 3;
     }
-    elseif (($bytes[$i] & 0xfc) == 0xf8) {
+    elseif (($bytes[$i] & 0xfc) == 0xf8) {   # 111110xx
       $buffer = ($bytes[$i] & 0x3);
       $extra = 4;
     }
     else {
-      $buffer = ($bytes[$i] & 0x1);
+      $buffer = ($bytes[$i] & 0x1);          # 1111110x
       $extra = 5;
     }
     for ($j = $i+1; $j <= $i+$extra; $j++) {
-      $buffer = $buffer << 6 | $bytes[$j];
+      $buffer = $buffer << 6 | ($bytes[$j] & 0x3f);
     }
     $i += $extra;
     $data[] = $buffer;
@@ -138,8 +131,8 @@ function decode_utf16($bytes) {
   $buffer = 0;
   $out = [];
   for ($i = 0; $i < count($bytes); $i+=2) {
-    $pair = $data[$i]<<8 | $data[$i+1];
-    if ($pair < 0xd800 | $pair > 0xe000) {
+    $pair = ($bytes[$i]<<8) | $bytes[$i+1];
+    if ($pair < 0xd800 || $pair > 0xe000) {
       if ($buffer) {
         $out[] = $buffer;
       }
@@ -159,6 +152,7 @@ function decode_utf16($bytes) {
       $out[] = $pair;
     }
   }
+  return $out;
 }
 
 function encode_utf32($data) {
@@ -197,9 +191,10 @@ function generate_oct($bytes) {
 }
 
 function generate_hex($bytes) {
-  $out = [];
-  foreach ($bytes as $byte) {
-    $out[] = str_pad(dechex($byte), 2, '0', STR_PAD_LEFT);
+  $out = [''];
+  foreach ($bytes as $i => $byte) {
+    $out[ceil($i / 2)] = '';
+    $out[floor($i / 2)] .= str_pad(dechex($byte), 2, '0', STR_PAD_LEFT);
   }
   return $out;
 }

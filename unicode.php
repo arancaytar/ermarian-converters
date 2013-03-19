@@ -25,7 +25,8 @@ $bases = ['bin' => 2, 'oct' => 8, 'hex' => 16];
 
 if ($v['input']) {
   if ($v['submit'] == 'Encode') {
-    $data = parse_raw($v['input']);
+    // TODO: Investigate how to detect the input encoding.
+    $data = decode_utf8(parse_raw($v['input']));
     $fn = "encode_{$v['encoding']}";
     $bytes = $fn($data);
     $fn = "generate_{$v['format']}";
