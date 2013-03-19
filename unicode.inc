@@ -168,7 +168,7 @@ function encode_utf32($data) {
 
 function decode_utf32($bytes) {
   $out = [];
-  for ($i = 0; $i < count($bytes); $i+=4) {
+  for ($i = 0; $i+3 < count($bytes); $i+=4) {
     $out[] = (($bytes[$i] << 8 | $bytes[$i+1]) << 8 | $bytes[$i+2]) << 8 | $bytes[$i+3];
   }
   return $out;
