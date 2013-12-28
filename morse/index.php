@@ -52,7 +52,7 @@ $page['content'] = <<<DOC
     </p>
   </form>
   <h3>Output</h3>
-  <div id="output" class="codeblock" style="white-space:normal">{$output}</div>
+  <div id="output" class="filled-box codeblock" style="white-space:normal">{$output}</div>
 DOC;
 
 print theme_page($page);
