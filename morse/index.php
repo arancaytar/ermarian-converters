@@ -46,9 +46,9 @@ $page['content'] = <<<DOC
   <p>This tool supports OpenSearch, and provides autocompletion.</p>
   <form action="{$_SERVER['PHP_SELF']}" method="post">
     <input type="hidden" name="json" value="0" />
-    <p style="text-align:center; vertical-align:center">
+    <p style="text-align:center; vertical-align:middle">
       <input id="input" type="text" name="input" size="80" value="{$input}" />
-      <input type="submit" value="Convert" style="vertical-align:center" />
+      <input type="submit" value="Convert" style="vertical-align:middle" />
     </p>
   </form>
   <h3>Output</h3>
