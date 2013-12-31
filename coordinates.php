@@ -41,16 +41,16 @@ function convert($input, $direction, $v) {
 $v = $_REQUEST + [
   'input' => '',
   'output' => '',
-  'direction' => 'c2p',
+  'op' => 'c2p',
   'json' => FALSE,
   'azimuth' => 'ccw',
   'o1' => 'plus',
   'o2' => 'x',
 ];
-$v['direction'] = $v['direction'] == 'c2p' ? 'c2p' : 'p2c';
+$v['op'] = $v['op'] == 'c2p' ? 'c2p' : 'p2c';
 
 if ($v['input']) {
-  $v['output'] = convert(trim($v['input']), $v['direction'], $v);
+  $v['output'] = convert(trim($v['input']), $v['op'], $v);
 }
 
 if ($v['json']) {
@@ -61,8 +61,6 @@ if ($v['json']) {
 
 $input = $v['input'];
 $output = $v['output'];
-$c2p = $v['direction'] == 'c2p' ? 'checked="checked"' : '';
-$p2c = $v['direction'] == 'p2c' ? 'checked="checked"' : ''	;
 $ccw = $v['azimuth'] == 'ccw' ? 'checked="checked"' : '';
 $cw = $v['azimuth'] == 'cw' ? 'checked="checked"' : ''	;
 $o1plus = $v['o1'] == 'plus' ? 'checked="checked"' : '';
@@ -81,17 +79,10 @@ $page['content'] = <<<DOC
     <input type="hidden" name="json" value="" />
     <label for="input">Coordinates:</label>
     <input type="text" id="input" name="input" value="{$input}" />
-    <input type="submit" id="submit" value="Convert" />
+    <button type="submit" name="op" value="c2p">Cartesian &rarr; Polar</button>
+    <button type="submit" name="op" value="p2c">Polar &rarr; Cartesian</button>
   </p>
   <div id="output" class="filled-box codeblock">{$output}</div>
-  <fieldset id="direction">
-    <legend>Direction</legend>
-    <input type="radio" id="c2p" name="direction" value="c2p" {$c2p} />
-    <label for="c2p">Cartesian &rarr; Polar</label>
-    <br />
-    <input type="radio" id="p2c" name="direction" value="p2c" {$p2c} />
-    <label for="c2p">Polar &rarr; Cartesian</label>
-  </fieldset>
   <fieldset id="phi">
     <legend>Azimuth</legend>
     +θ is:<br />
