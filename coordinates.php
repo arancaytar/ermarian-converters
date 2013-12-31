@@ -20,34 +20,45 @@ function p2c($r, $a) {
 }
 
 function convert($input, $direction, $v) {
-  $shift = (($v['o2'] == 'y') * 0.5) + ($v['o1'] == 'minus');
-  if ($direction == 'c2p' && preg_match('/^(?<x>-?(?:\d*\.)?\d+)[,\s]+(?<y>-?(?:\d*\.)?\d+)$/u', $input, $args)) {
+  $shift = ['e' => 0, 's' => 0.5, 'w' => 1, 'n' => 1.5];
+  $shift = $shift[$v['azimuth-origin']];
+  $shift *= pi();
+  if ($direction == 'c2p' && preg_match('/^(?<x>-?(?:\d*\.)?\d+)[^\d]+?(?<y>-?(?:\d*\.)?\d+)$/u', $input, $args)) {
     $x = c2p($args['x'], $args['y']);
-    $x[1] = fmod(180/pi() * ($x[1] - $shift*pi()), 360) * pi()/180;
-    if ($v['azimuth'] == 'cw') $x[1] = 2*pi() - $x[1]; // reverse azimuth
+    $x[1] -= $shift;
+    if ($v['azimuth-direction'] == 'cw') $x[1] *= -1;
+    $x[1] = fmod(fmod($x[1], 2*pi()) + 2*pi(), 2*pi());
+    if ($x[1] > pi()) $x[1] -= 2*pi();
   }
-  elseif ($direction == 'p2c' && preg_match('/^(?<r>-?(?:\d*\.)?\d+)[,\s]+(?<theta>-?(?:\d*\.)?\d+)(?<deg>°?)$/u', $input, $args)) {
+  elseif ($direction == 'p2c' && preg_match('/^(?<r>(?:\d*\.)?\d+)[^\d]+?(?<theta>-?(?:\d*\.)?\d+)(?<deg>°?)$/u', $input, $args)) {
     if ($args['deg']) {
       $args['theta'] *= pi() / 180;
-      if ($v['azimuth'] == 'cw') $x[1] = 2*pi() - $x[1]; // reverse azimuth
-      $args['theta'] = fmod(180/pi() * ($args['theta'] + $shift*pi()), 360) * pi()/180;
     }
+    if ($v['azimuth-direction'] == 'cw') $x[1] = 2*pi() - $x[1]; // reverse azimuth
+    $args['theta'] = fmod(180/pi() * ($args['theta'] + $shift), 360) * pi()/180;
     $x = p2c($args['r'], $args['theta']);
   }
   else return 'Error: format not recognized.';
   return sprintf('%.6f, %.6f', $x[0], $x[1]);
 }
 
-$v = $_REQUEST + [
+$defaults = [
   'input' => '',
   'output' => '',
   'op' => 'c2p',
   'json' => FALSE,
-  'azimuth' => 'ccw',
-  'o1' => 'plus',
-  'o2' => 'x',
+  'azimuth-direction' => 'ccw',
+  'azimuth-origin' => 'e',
 ];
-$v['op'] = $v['op'] == 'c2p' ? 'c2p' : 'p2c';
+
+$v = $_REQUEST + $defaults;
+
+if (!in_array($v['azimuth-direction'], ['cw', 'ccw']))
+  unset($v['azimuth-direction']);
+if (!in_array($v['azimuth-origin'], ['n', 'e', 's', 'w']))
+  unset($v['azimuth-origin']);
+$v += $defaults;
+
 
 if ($v['input']) {
   $v['output'] = convert(trim($v['input']), $v['op'], $v);
@@ -61,12 +72,9 @@ if ($v['json']) {
 
 $input = $v['input'];
 $output = $v['output'];
-$ccw = $v['azimuth'] == 'ccw' ? 'checked="checked"' : '';
-$cw = $v['azimuth'] == 'cw' ? 'checked="checked"' : ''	;
-$o1plus = $v['o1'] == 'plus' ? 'checked="checked"' : '';
-$o1minus = $v['o1'] == 'minus' ? 'checked="checked"' : ''	;
-$o2x = $v['o2'] == 'x' ? 'checked="checked"' : '';
-$o2y = $v['o2'] == 'y' ? 'checked="checked"' : ''	;
+$selected = 'selected="selected"';
+$cw = $ccw = $n = $e = $s = $w = '';
+${$v['azimuth-direction']} = ${$v['azimuth-origin']} = $selected;
 
 
 $page['meta']['keywords'] = ['polar', 'cartesian', 'coordinates', 'conversion', 'converter'];
@@ -83,42 +91,22 @@ $page['content'] = <<<DOC
     <button type="submit" name="op" value="p2c">Polar &rarr; Cartesian</button>
   </p>
   <div id="output" class="filled-box codeblock">{$output}</div>
-  <fieldset id="phi">
+  <fieldset id="azimuth">
     <legend>Azimuth</legend>
-    +θ is:<br />
-    <input type="radio" id="cw" name="azimuth" value="cw" {$cw} />
-    <label for="ccw">clockwise</label>
-    <br />
-    <input type="radio" id="ccw" name="azimuth" value="ccw" {$ccw} />
-    <label for="ccw">counterclockwise</label>
-  </fieldset>
-  <fieldset id="orientation">
-    <legend>Orientation</legend>
-    <table style="border:none;background:none;">
-      <caption>θ = 0° is:</caption>
-      <tr>
-        <td>
-          <input type="radio" id="o1plus" name="o1" value="plus" {$o1plus} />
-          <label for="o1plus">+</label>
-        </td>
-        <td>
-          <input type="radio" id="o2x" name="o2" value="x" {$o2x} />
-          <label for="o2x">x</label>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input type="radio" id="o1minus" name="o1" value="minus" {$o1minus} />
-          <label for="o1minus">-</label>
-        </td>
-        <td>
-          <input type="radio" id="o2y" name="o2" value="y" {$o2y} />
-          <label for="o2y">y</label>
-        </td>
-      </tr>
-    </table>
+    <label for="azimuth-direction">Azimuth increases</label>
+    <select id="azimuth-direction" name="azimuth-direction">
+      <option value="cw" {$cw}>clockwise</option>
+      <option value="ccw" {$ccw}>counterclockwise</option>
+    </select>
+    <label for="azimuth-origin">from this axis: </label>
+    <select id="azimuth-origin" name="azimuth-origin">
+      <option value="n" {$n}>North (+y)</option>
+      <option value="e" {$e}>East (+x)</option>
+      <option value="s" {$s}>South (-y)</option>
+      <option value="w" {$w}>West (-x)</option>
+    </select>
   </fieldset>
 </form>
-<p>Enter two numbers and pick the conversion direction. Per convention, the format for cartesian coordinates is <strong>x,y</strong>, and the format for polar coordinates is <strong>radius,azimuth</strong>. If appended with &deg;, the azimuth will be interpreted as degrees; it will always be given in radians. The azimuth is counter-clockwise from <code>+x</code>.</p>
+<p>Enter two numbers and pick the conversion direction. Per convention, the format for cartesian coordinates is <strong>x,y</strong>, and the format for polar coordinates is <strong>radius,azimuth</strong>. If appended with &deg;, the azimuth will be interpreted as degrees; it will always be given in radians.</p>
 DOC;
 print theme_page($page);
