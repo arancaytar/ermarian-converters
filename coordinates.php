@@ -3,8 +3,6 @@
 require_once 'ermarian/template.php';
 require_once 'net/mime.inc';
 
-$SELF = $_SERVER['SCRIPT_URL'];
-
 function c2p($x, $y) {
   return array(
     pow($x*$x + $y*$y, 0.5),
@@ -82,7 +80,7 @@ $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 
 $page['content'] = <<<DOC
 <p>This page will convert between polar and cartesian coordinates.</p>
-<form action="{$SELF}" method="post">
+<form action="{$_SERVER['PHP_SELF']}" method="post">
   <p>
     <input type="hidden" name="json" value="" />
     <label for="input">Coordinates:</label>
