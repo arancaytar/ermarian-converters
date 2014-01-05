@@ -130,7 +130,7 @@ function encode_utf16($data) {
 function decode_utf16($bytes) {
   $buffer = 0;
   $out = [];
-  for ($i = 0; $i < count($bytes); $i+=2) {
+  for ($i = 0; $i < count($bytes) - 1; $i+=2) {
     $pair = ($bytes[$i]<<8) | $bytes[$i+1];
     if ($pair < 0xd800 || $pair > 0xe000) {
       if ($buffer) {
