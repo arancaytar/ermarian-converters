@@ -4,17 +4,11 @@ require_once 'ermarian/template.php';
 require_once 'net/mime.inc';
 
 function c2p($x, $y) {
-  return array(
-    pow($x*$x + $y*$y, 0.5),
-    atan2($y,$x),
-  );
+  return [pow($x*$x + $y*$y, 0.5), atan2($y,$x)];
 }
 
 function p2c($r, $a) {
-  return array(
-    $r * cos($a),
-    $r * sin($a),
-  );
+  return [$r * cos($a), $r * sin($a)];
 }
 
 function convert($input, $direction, $v) {
