@@ -60,11 +60,11 @@ function encode_utf8($data) {
     }
     else {
       $out[] = 0xfc | ($codepoint >> 30);        # 0b1111110x
-      $out[] = 0x80 | ($codepoint >> 24 % 0x40); # 0b10xxxxxx      
+      $out[] = 0x80 | ($codepoint >> 24 % 0x40); # 0b10xxxxxx
       $out[] = 0x80 | ($codepoint >> 18 % 0x40); # 0b10xxxxxx
       $out[] = 0x80 | ($codepoint >> 12 % 0x40); # 0b10xxxxxx
       $out[] = 0x80 | ($codepoint >>  6 % 0x40); # 0b10xxxxxx
-      $out[] = 0x80 | ($codepoint % 0x40);       # 0b10xxxxxx    
+      $out[] = 0x80 | ($codepoint % 0x40);       # 0b10xxxxxx
     }
   }
   return $out;

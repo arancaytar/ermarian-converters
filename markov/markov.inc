@@ -78,7 +78,7 @@ function l_generate_text($profile, $length, $seed = '') {
 function w_build_relations($text, $coherence) {
   $text = explode(' ', $text);
   $relations = array();
-  
+
   for ($i = 0; $i < count($text) - $coherence; $i++) {
     $here = implode(' ', array_slice($text, $i, $coherence));
     $next = $text[$i + $coherence];
@@ -96,9 +96,9 @@ function w_build_relations($text, $coherence) {
  * @param $length
  *   How many words to generate.
  * @param $seed
- *   The initial word or word group to start with. If none is given, 
+ *   The initial word or word group to start with. If none is given,
  *   one will be picked from the profile at random.
- *   This is an 
+ *   This is an
  */
 function w_generate_text($profile, $length, $seed = '') {
   $coherence = count(explode(' ', (current(array_keys($profile)))));

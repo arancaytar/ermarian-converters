@@ -40,8 +40,8 @@ $page['meta']['extra'] = <<<DOC
 DOC;
 $page['scripts'] = ['js/jquery', 'js/jquery.form', 'js/ajax'];
 $page['content'] = <<<DOC
-  <p>You may enter a morse code to convert here, or a normal text to convert to 
-  morse. Format: <code>"."</code> for short, <code>"-"</code> for long, any 
+  <p>You may enter a morse code to convert here, or a normal text to convert to
+  morse. Format: <code>"."</code> for short, <code>"-"</code> for long, any
   amount of white space between letters, and <code>"/"</code> between words.</p>
   <p>This tool supports OpenSearch, and provides autocompletion.</p>
   <form action="{$_SERVER['PHP_SELF']}" method="post">
