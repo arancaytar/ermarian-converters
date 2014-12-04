@@ -21,7 +21,7 @@ decode = function(x) {
 code = function(x) {
   x = x.toUpperCase().trim();
   if (!x) return "";
-  return x.match(/[A-Za-z0-9]/) ? encode(x) : decode(x);
+  return x.match(/[^\s.\/-]/) ? encode(x) : decode(x);
 }
 
 alphabet = {
