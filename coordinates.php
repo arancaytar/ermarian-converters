@@ -26,8 +26,8 @@ function convert($input, $direction, $v) {
     if ($args['deg']) {
       $args['theta'] *= pi() / 180;
     }
-    if ($v['azimuth-direction'] == 'cw') $x[1] = 2*pi() - $x[1]; // reverse azimuth
     $args['theta'] = fmod(180/pi() * ($args['theta'] + $shift), 360) * pi()/180;
+    if ($v['azimuth-direction'] == 'cw') $args['theta'] *= -1; // reverse azimuth
     $x = p2c($args['r'], $args['theta']);
   }
   else return 'Error: format not recognized.';
