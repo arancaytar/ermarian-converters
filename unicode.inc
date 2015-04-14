@@ -98,6 +98,9 @@ function decode_utf8($bytes) {
       $buffer = ($bytes[$i] & 0x1);          # 1111110x
       $extra = 5;
     }
+    if ($i+$extra >= count($bytes)) {
+      break;
+    }
     for ($j = $i+1; $j <= $i+$extra; $j++) {
       $buffer = $buffer << 6 | ($bytes[$j] & 0x3f);
     }
